@@ -31,7 +31,13 @@ namespace EZ_Updater
         /// </summary>
         /// <value>ProgramName.exe</value>
         public static string GitHub_Asset { get; set; }
-        
+
+        /// <summary>
+        /// Keep user's current file name
+        /// </summary>
+        /// <value>false</value>
+        public static bool KeepFilename { get; set; } = false;
+
         /// <returns>
         /// Count of how many retries of downloading are done (MAX: 4)
         /// </returns>
@@ -584,6 +590,8 @@ namespace EZ_Updater
             foreach (FileInfo file in Adir.GetFiles())
             {
                 var newfile = $"{destDir}\\{file.Name}";
+                if (KeepFilename)
+                    newfile = $"{destDir}\\{ProgramFileName}";
                 if (File.Exists(newfile))
                     File.Move($"{newfile}", $"{newfile}.EZold");
                 Log($"File: {file.FullName} -> {newfile}");
